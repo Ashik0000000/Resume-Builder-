@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { TextField } from '@mui/material';
 import { IoClose } from "react-icons/io5";
+import { updateResumeAPI } from '../services/allAPI';
 
 const style = {
   position: 'absolute',
@@ -45,7 +46,26 @@ function Edit2({resumeDetails,setResumeDetails}) {
     });
   };
 
-    
+    const handleResumeUpdate = async()=>{
+      const{id,username,jobTitle,location} = resumeDetails
+      if(!username && !jobTitle && !location){
+        alert("please fill the form completely...")
+      }
+      else{
+        //api
+        try{
+            const result = await updateResumeAPI(id,resumeDetails)
+            console.log(result);
+            if(result.status==200){
+              alert("resume added successfully")
+              handleClose()
+            }
+            console.log()
+        }catch(err){
+          console.log(err)
+        }
+      }
+    }
 
   return (
     
@@ -135,7 +155,7 @@ function Edit2({resumeDetails,setResumeDetails}) {
             </div>
           </div>
           <div className='my-3'>
-            <button className='btn btn-warning text-light' >update</button>
+            <button onClick={handleResumeUpdate} className='btn btn-warning text-light' >update</button>
           </div>
           </Box>
         </Box>
